@@ -2,11 +2,11 @@
 import json
 import re
 import sys
-version = sys.version
+version = sys.version_info
 
-if '3' no in version:
+if version.major < 3:
     import urllib2
-else:
+elif version.major == 3:
     import urllib.request
     import urllib.error
     import urllib.parse
