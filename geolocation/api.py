@@ -73,7 +73,7 @@ class GeocodeApi(object):
         if version.major < 3:
             json_data = urllib2.urlopen(request).read()
         else:
-            json_data = urllib.request.urlopen(request).read()
+            json_data = urllib.request.urlopen(request).read().decode('utf-8')
 
         json_results = json.loads(json_data)
 
