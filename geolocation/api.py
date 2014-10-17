@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-import urllib2
+import sys
+version = sys.version_info
+
+if version.major < 2:
+    import urllib2
+else:
+    import urllib.request
+    import urllib.error
+    import urllib.parse
 
 STATUS_OK = 'OK'
 STATUS_ZERO_RESULTS = 'ZERO_RESULTS'
@@ -16,7 +24,8 @@ STATUS_CODES = (
     (STATUS_OVER_QUERY_LIMIT, 'Over your quota.'),
     (STATUS_REQUEST_DENIED, 'Request was denied.'),
     (STATUS_INVALID_REQUEST, 'Query is missing.'),
-    (STATUS_UNKNOWN_ERROR, 'Request could not be processed due to a server error. Try again.'),
+    (STATUS_UNKNOWN_ERROR,
+     'Request could not be processed due to a server error. Try again.'),
 )
 
 
@@ -61,7 +70,10 @@ class GeocodeApi(object):
 
     def _get_json_data(self, request):
         """Method sends request to google geocode api and returns json data."""
-        json_data = urllib2.urlopen(request).read()
+        if version.major < 3:
+            json_data = urllib2.urlopen(request).read()
+        else:
+            json_data = urllib.request.urlopen(request).read()
 
         json_results = json.loads(json_data)
 
