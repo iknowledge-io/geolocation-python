@@ -82,4 +82,8 @@ class GeocodeApi(object):
         if status == STATUS_OK:
             return json_results['results']
         else:
-            raise self._get_status_code(status)
+            if version.major < 3:
+                raise self._get_status_code(status)
+            else:
+                raise ValueError(self._get_status_code(status))
+
